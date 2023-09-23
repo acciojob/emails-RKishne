@@ -1,17 +1,14 @@
 package com.driver;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Gmail extends Email {
 
     int inboxCapacity; //maximum number of mails inbox can store
     //Inbox: Stores mails. Each mail has date (Date), sender (String), message (String). It is guaranteed that message is distinct for all mails.
     //Trash: Stores mails. Each mail has date (Date), sender (String), message (String)
-    private Queue<Mail> inbox;
-    private Queue<Mail> trash;
+    private Deque<Mail> inbox;
+    private  Deque<Mail> trash;
     public Gmail(String emailId, int inboxCapacity) {
         super(emailId);
         this.inboxCapacity=inboxCapacity;
@@ -26,8 +23,9 @@ public class Gmail extends Email {
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
         Mail newMail=new Mail(date, sender, message);
         if(inbox.size()==inboxCapacity){
-//            Mail oldMail=inbox.remove();
-            trash.add(newMail);
+          Mail oldMail=inbox.remove();
+          trash.add(oldMail);
+          inbox.add(newMail);
         }
         else {
             inbox.add(newMail);
@@ -41,6 +39,7 @@ public class Gmail extends Email {
             if(mail.getMessage().equals(message)){
                 inbox.remove(mail);
                 trash.add(mail);
+                break;
             }
         }
     }
@@ -51,7 +50,7 @@ public class Gmail extends Email {
         if(inbox.isEmpty()){
             return null;
         }
-        Mail latestMail=inbox.peek();
+        Mail latestMail=inbox.getLast();
         return latestMail.getMessage();
     }
 
