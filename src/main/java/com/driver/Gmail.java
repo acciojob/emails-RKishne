@@ -19,10 +19,6 @@ public class Gmail extends Email {
         trash=new LinkedList<>();
     }
 
-    public Gmail(String emailId) {
-        super(emailId);
-    }
-
     public void receiveMail(Date date, String sender, String message){
         // If the inbox is full, move the oldest mail in the inbox to trash and add the new mail to inbox.
         // It is guaranteed that:
@@ -30,8 +26,8 @@ public class Gmail extends Email {
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
         Mail newMail=new Mail(date, sender, message);
         if(inbox.size()==inboxCapacity){
-            Mail oldMail=inbox.remove();
-            trash.add(oldMail);
+//            Mail oldMail=inbox.remove();
+            trash.add(newMail);
         }
         else {
             inbox.add(newMail);
@@ -45,7 +41,6 @@ public class Gmail extends Email {
             if(mail.getMessage().equals(message)){
                 inbox.remove(mail);
                 trash.add(mail);
-                break;
             }
         }
     }
