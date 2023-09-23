@@ -33,7 +33,9 @@ public class Gmail extends Email {
             Mail oldMail=inbox.remove();
             trash.add(oldMail);
         }
-        inbox.add(newMail);
+        else {
+            inbox.add(newMail);
+        }
     }
 
     public void deleteMail(String message){
